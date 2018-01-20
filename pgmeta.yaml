@@ -1,0 +1,8 @@
+package-as: Fugg
+
+ignore:
+  - README.MD
+  - changelog.txt
+
+manual-changelog:
+  filename: changelog.txt
