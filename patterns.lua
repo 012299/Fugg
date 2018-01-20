@@ -72,7 +72,7 @@ local replacements = {
     " :DD",
     " :DD %1",
     "",
-    "XDD",
+    " Xdd",
     "w",
     "d",
     "ab",
