@@ -1,0 +1,6 @@
+## Interface: 70300
+## Title: Fugg
+## Author: :DD
+## Version: 0.1
+patterns.lua
+main.lua
