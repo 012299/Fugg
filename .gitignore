@@ -194,7 +194,8 @@ Session.vim
 *~
 # auto-generated tag files
 tags
-
+#images
+*.png
 
 # End of https://www.gitignore.io/api/lua,vim,intellij,intellij+all,intellij+iml
 
