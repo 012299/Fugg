@@ -18,9 +18,11 @@ local function ToggleFugg(cmd)
     if cmd == 'off' then
         SendChatMessage = _SendChatMessage
         BNSendWhisper = _BNSendWhisper
+        print('Fugg disabled')
     else
         SendChatMessage = __SendChatMessage
         BNSendWhisper = __BNSendWhisper
+        print('Fugg enabled')
     end
 end
 
@@ -28,14 +30,18 @@ local function ToggleSpecific(cmd)
     if cmd == 'chat' then
         if SendChatMessage == _SendChatMessage then
             SendChatMessage = __SendChatMessage
+            print('Fugg chat enabled')
         else
             SendChatMessage = _SendChatMessage
+            print('Fugg chat disabled')
         end
     else
         if BNSendWhisper == _BNSendWhisper then
             BNSendWhisper = __BNSendWhisper
+            print('Fugg BN enabled')
         else
             BNSendWhisper = _BNSendWhisper
+            print('Fugg BN disabled')
         end
     end
 end
@@ -62,5 +68,12 @@ function SlashCmdList.FUGG(msg, ...)
     end
 end
 
-SendChatMessage = __SendChatMessage
-BNSendWhisper = __BNSendWhisper
+local function LoadFugg(frame, event, ...)
+    SendChatMessage = __SendChatMessage
+    BNSendWhisper = __BNSendWhisper
+    Fugg:PrepCaseInsensitivity()
+end
+
+local frame = CreateFrame("FRAME", "FuggFrame")
+frame:RegisterEvent('PLAYER_LOGIN')
+frame:SetScript("OnEvent", LoadFugg)

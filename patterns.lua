@@ -5,6 +5,8 @@ local patterns = {
     "right",
     "your",
     "have",
+    "god",
+    "age",
     "%. ",
     "%.$",
     "%.([^0-9 ])",
@@ -68,6 +70,8 @@ local replacements = {
     "rite",
     "ur",
     "hab",
+    "dog",
+    "aeg",
     " :DD",
     " :DD",
     " :DD %1",
@@ -124,18 +128,33 @@ local replacements = {
     "ig",
     "nk"
 }
-local item_detector = '%[.+%]'
+
+
+local link_pattern = '%[.+%]'
 local _match = _G["string"]["match"]
+local _upper = _G["string"]["upper"]
 local _gsub = _G["gsub"]
 local _ipairs = _G["ipairs"]
 
+
+function Fugg:PrepCaseInsensitivity()
+    for index, pattern in _ipairs(patterns) do
+        patterns[index], _ = _gsub(pattern, '(%l)', function(v) return '[' .. strupper(v) .. strlower(v) .. ']' end)
+    end
+end
+
 function Fugg:TranslateMessage(chatMessage)
-    if _match(chatMessage, item_detector) then
+    if _match(chatMessage, link_pattern) then
         return chatMessage
     end
     local chatMessage = chatMessage
+    local isUpper = _upper(chatMessage) == chatMessage
+
     for index, pattern in _ipairs(patterns) do
         chatMessage, _ = _gsub(chatMessage, pattern, replacements[index])
+    end
+    if isUpper then
+        chatMessage = _upper(chatMessage)
     end
     return chatMessage
 end
