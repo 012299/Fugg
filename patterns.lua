@@ -72,7 +72,7 @@ local replacements = {
     "hab",
     "dog",
     "aeg",
-    " :DD",
+    " :DD ",
     " :DD",
     " :DD %1",
     "",

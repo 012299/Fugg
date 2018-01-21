@@ -1,10 +1,16 @@
 local name, Fugg = ...;
 
+local MSG_LIMIT = 255
+local _len = _G['string']['len']
+local _sub = _G['string']['sub']
 local _SendChatMessage = SendChatMessage
 local _BNSendWhisper = BNSendWhisper
 
 local function __SendChatMessage(msg, chatType, language, channel, ...)
     local trans = Fugg:TranslateMessage(msg)
+    if _len(trans) > MSG_LIMIT then
+        trans = _sub(trans, 1, MSG_LIMIT)
+    end
     return _SendChatMessage(trans, chatType, language, channel, ...)
 end
 
