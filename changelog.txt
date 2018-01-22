@@ -1,5 +1,8 @@
+22012018
+Added some pattern changes
+
 21012018
-First version
+Added case insensitivty
 
 20012018
 First version

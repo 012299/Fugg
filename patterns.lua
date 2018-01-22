@@ -7,12 +7,13 @@ local patterns = {
     "have",
     "god",
     "age",
+    "%.+",
     "%. ",
     "%.$",
     "%.([^0-9 ])",
     "'",
-    ",",
     "wh",
+    "tt",
     "th",
     "af",
     "ap",
@@ -62,6 +63,9 @@ local patterns = {
     "ing",
     "ic",
     "ng",
+    "x",
+    ",",
+    "m8"
 }
 
 local replacements = {
@@ -72,12 +76,13 @@ local replacements = {
     "hab",
     "dog",
     "aeg",
+    " :DDD",
     " :DD ",
     " :DD",
     " :DD %1",
     "",
-    " Xdd",
     "w",
+    "d",
     "d",
     "ab",
     "ab",
@@ -126,7 +131,10 @@ local replacements = {
     "olk",
     "ign",
     "ig",
-    "nk"
+    "nk",
+    "gs",
+    " fugg :DD",
+    " Xdd"
 }
 
 
