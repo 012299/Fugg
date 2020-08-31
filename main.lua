@@ -6,6 +6,8 @@ local _sub = _G['string']['sub']
 local _SendChatMessage = SendChatMessage
 local _BNSendWhisper = BNSendWhisper
 
+Fugg.MODE = "fugg"
+
 local function __SendChatMessage(msg, chatType, language, channel, ...)
     local trans = Fugg:TranslateMessage(msg)
     if _len(trans) > MSG_LIMIT then
@@ -52,11 +54,18 @@ local function ToggleSpecific(cmd)
     end
 end
 
+local function ToggleDolan(cmd)
+    Fugg.MODE = Fugg.MODE == "fugg" and "dolan" or "fugg"
+    Fugg:update_patterns()
+    print(Fugg.MODE)
+end
+
 local fuggMapping = {
     ['off'] = ToggleFugg,
     ['on'] = ToggleFugg,
     ['chat'] = ToggleSpecific,
-    ['bn'] = ToggleSpecific
+    ['bn'] = ToggleSpecific,
+    ['dolan'] = ToggleDolan
 }
 
 SLASH_FUGG1 = '/fugg'
@@ -71,13 +80,17 @@ function SlashCmdList.FUGG(msg, ...)
         print('\'/fugg on\' to enable fugg')
         print('\'/fugg chat\' to toggle regular chatchannel functionality')
         print('\'/fugg bn\' to toggle Battle.net whisper functionality')
+        print('\'/dolan \' to swap to dolan functionality')
     end
 end
 
 local function LoadFugg(frame, event, ...)
     SendChatMessage = __SendChatMessage
     BNSendWhisper = __BNSendWhisper
-    Fugg:PrepCaseInsensitivity()
+    Fugg:PrepCaseInsensitivity(Fugg.fugg_patterns)
+    Fugg:PrepCaseInsensitivity(Fugg.dolan_patterns)
+    Fugg:update_patterns()
+    Fugg:init_sub_patterns()
 end
 
 local frame = CreateFrame("FRAME", "FuggFrame")
