@@ -90,6 +90,7 @@ local function LoadFugg(frame, event, ...)
     Fugg:PrepCaseInsensitivity(Fugg.fugg_patterns)
     Fugg:PrepCaseInsensitivity(Fugg.dolan_patterns)
     Fugg:update_patterns()
+    Fugg:init_sub_patterns()
 end
 
 local frame = CreateFrame("FRAME", "FuggFrame")

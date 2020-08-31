@@ -9,6 +9,7 @@ local _random = _G["math"]["random"]
 
 local patterns = {}
 local replacements = {}
+local sub_patterns = {}
 
 function Fugg:PrepCaseInsensitivity(patterns)
     for index, pattern in _ipairs(patterns) do
@@ -23,23 +24,33 @@ local function TranslateMessageSub(chatMessage)
     return chatMessage
 end
 
+
 local function TranslateMessageSubTable(chatMessage)
+    -- replace matching patterns with a placeholder to avoid modifying modified items
     for index, pattern in _ipairs(patterns) do
+        chatMessage, _ = _gsub(chatMessage, pattern, sub_patterns[index])
+    end
+    -- replace placeholders with the final value
+    for index, pattern in _ipairs(sub_patterns) do
         local sub_table = replacements[index]
-        chatMessage, _ = _gsub(chatMessage, pattern, sub_table[_random(#sub_table)])
+        local repl = sub_table[_random(#sub_table)]
+        chatMessage, _ = _gsub(chatMessage, pattern, repl)
     end
     return chatMessage
 end
+
 local _TranslateMessageSub = TranslateMessageSub
 
 function Fugg:update_patterns()
     if Fugg.MODE == "fugg" then
         patterns = Fugg.fugg_patterns
         replacements = Fugg.fugg_replacements
+        sub_patterns = {}
         _TranslateMessageSub = TranslateMessageSub
     else
         patterns = Fugg.dolan_patterns
         replacements = Fugg.dolan_replacements
+        sub_patterns = Fugg.dolan_sub_patterns
         _TranslateMessageSub = TranslateMessageSubTable
     end
 end
