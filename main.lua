@@ -57,7 +57,6 @@ end
 local function ToggleDolan(cmd)
     Fugg.MODE = Fugg.MODE == "fugg" and "dolan" or "fugg"
     Fugg:update_patterns()
-    print(Fugg.MODE)
 end
 
 local fuggMapping = {
@@ -80,7 +79,7 @@ function SlashCmdList.FUGG(msg, ...)
         print('\'/fugg on\' to enable fugg')
         print('\'/fugg chat\' to toggle regular chatchannel functionality')
         print('\'/fugg bn\' to toggle Battle.net whisper functionality')
-        print('\'/dolan \' to swap to dolan functionality')
+        print('\'/fugg dolan \' to toggle dolan translation')
     end
 end
 
@@ -91,6 +90,7 @@ local function LoadFugg(frame, event, ...)
     Fugg:PrepCaseInsensitivity(Fugg.dolan_patterns)
     Fugg:update_patterns()
     Fugg:init_sub_patterns()
+    ToggleDolan()
 end
 
 local frame = CreateFrame("FRAME", "FuggFrame")

@@ -651,7 +651,7 @@ Fugg.dolan_replacements = {
     { 'gess' },
     { 'hapy', 'hapy' },
     { 'hert' },
-    { 'hlelo' },
+    { 'hlelo', 'henlo'},
     { 'igaf' },
     { 'idoit', 'edeot', 'ideot' },
     { 'izlam' },
