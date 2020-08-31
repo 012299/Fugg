@@ -1,6 +1,9 @@
-## Interface: 70300
+## Interface: 80300
 ## Title: Fugg
 ## Author: :DD
-## Version: 0.1
+## Version: 0.2
+dolan.lua
+fugg.lua
 patterns.lua
 main.lua
+
