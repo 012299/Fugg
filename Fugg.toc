@@ -4,6 +4,7 @@
 ## Version: 0.5
 dolan.lua
 fugg.lua
+additional_patterns.lua
 patterns.lua
 main.lua
 

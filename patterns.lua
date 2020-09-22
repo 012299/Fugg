@@ -3,13 +3,18 @@ local name, Fugg = ...;
 local link_pattern = '%[.+%]'
 local _match = _G["string"]["match"]
 local _upper = _G["string"]["upper"]
+local _lower = _G["string"]["lower"]
+local _str_find = _G["string"]["find"]
 local _gsub = _G["gsub"]
 local _ipairs = _G["ipairs"]
 local _random = _G["math"]["random"]
+local additional_patterns = Fugg.additional_patterns
+local additional_replacements = Fugg.additional_replacements
 
 local patterns = {}
 local replacements = {}
 local sub_patterns = {}
+
 
 function Fugg:PrepCaseInsensitivity(patterns)
     for index, pattern in _ipairs(patterns) do
@@ -55,6 +60,22 @@ function Fugg:update_patterns()
     end
 end
 
+function Fugg:RollDice(msg)
+    for index, patterns in _ipairs(additional_patterns) do
+        for _, pattern in _ipairs(patterns) do
+            if _str_find(_lower(msg), pattern) then
+                local success = _random(100)
+                if success <= 20 then
+                    local replacements = additional_replacements[index]
+                    return true, replacements[_random(#replacements)]
+                else
+                    return false, msg
+                end
+            end
+        end
+    end
+    return false, msg
+end
 
 
 
