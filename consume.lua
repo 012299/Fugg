@@ -54,10 +54,7 @@ Fugg.afro_pats = {
         2,
         "YOU FACE NOT MALCHEZAAR ALONE, BUT THE LEGIONS I COMMAND!!!"
     },
-    {
-        2,
-        "You face nod Malchezaar alone fugg :DD but de legionz I gomand!"
-    },
+
     {
         2,
         "Trinketttssssssssss."
