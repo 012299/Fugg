@@ -74,7 +74,7 @@ function Fugg:update_patterns()
 end
 
 function Fugg:Consume(msg)
-    if _random(100) <= 3 then
+    if _random(100) <= 4 then
         local msg_table = consume_patterns[_random(consume_len)]
         local amount = msg_table[1]
         return true, msg_table, amount

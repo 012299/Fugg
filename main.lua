@@ -3,6 +3,7 @@ local name, Fugg = ...;
 local MSG_LIMIT = 255
 local _len = _G['string']['len']
 local _sub = _G['string']['sub']
+local _C_TimerAfter = _G["C_Timer"]["After"]
 
 local MasterSendChatmessage = SendChatMessage
 local MasterBNSendWhisper = BNSendWhisper
@@ -26,7 +27,7 @@ local function WrapperSendChatmessage(msg, chatType, language, channel, ...)
         local success, msg, amount = Fugg:Consume(msg)
         if success then
             for line = 2, amount do
-                MasterSendChatmessage(msg[line], chatType, language, channel, ...)
+                _C_TimerAfter(line/7, function() MasterSendChatmessage(msg[line], chatType, language, channel) end)
             end
         else
             return _SendChatMessage(msg, chatType, language, channel, ...)
@@ -42,7 +43,7 @@ local function WrapperBNSendWhisper(presenceID, messageText, ...)
         local success, msg, amount = Fugg:Consume(msg)
         if success then
             for line = 2, amount do
-                MasterBNSendWhisper(presenceID, msg[line], ...)
+                _C_TimerAfter(line/7, function() MasterBNSendWhisper(presenceID, msg[line]) end)
             end
         else
             return _BNSendWhisper(presenceID, msg, ...)
