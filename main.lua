@@ -8,65 +8,69 @@ local MasterSendChatmessage = SendChatMessage
 local MasterBNSendWhisper = BNSendWhisper
 local _SendChatMessage = SendChatMessage
 local _BNSendWhisper = BNSendWhisper
-local RollDice = Fugg:RollDice
-local TranslateMessage = Fugg:TranslateMessage
+
+
 
 Fugg.MODE = "fugg"
 Fugg.ADDITIONAL = true
 Fugg.ENABLED_CHAT = true
 Fugg.ENABLED_BN = true
 
+
+
 local function WrapperSendChatmessage(msg, chatType, language, channel, ...)
-    local success, msg = RollDice(msg)
+    local success, msg = Fugg:RollDice(msg)
     if success then
         return MasterSendChatmessage(msg, chatType, language, channel, ...)
     else
-        return _SendChatMessage(msg, chatType, language, channel, ...)
+        local success, msg, amount = Fugg:Consume(msg)
+        if success then
+            for line = 2, amount do
+                MasterSendChatmessage(msg[line], chatType, language, channel, ...)
+            end
+        else
+            return _SendChatMessage(msg, chatType, language, channel, ...)
+        end
     end
 end
 
 local function WrapperBNSendWhisper(presenceID, messageText, ...)
-    local success, msg = RollDice(messageText)
+    local success, msg = Fugg:RollDice(messageText)
     if success then
         return MasterBNSendWhisper(presenceID, msg, ...)
     else
-        return _BNSendWhisper(presenceID, msg, ...)
+        local success, msg, amount = Fugg:Consume(msg)
+        if success then
+            for line = 2, amount do
+                MasterBNSendWhisper(presenceID, msg[line], ...)
+            end
+        else
+            return _BNSendWhisper(presenceID, msg, ...)
+        end
     end
 end
 
 
 
 local function __SendChatMessage(msg, chatType, language, channel, ...)
-    local trans = TranslateMessage(msg)
+    local trans = Fugg:TranslateMessage(msg)
     if _len(trans) > MSG_LIMIT then
         trans = _sub(trans, 1, MSG_LIMIT)
     end
-    return _SendChatMessage(trans, chatType, language, channel, ...)
+    return MasterSendChatmessage(trans, chatType, language, channel, ...)
 end
 
 local function __BNSendWhisper(presenceID, messageText, ...)
-    local trans = TranslateMessage(messageText)
-    return _BNSendWhisper(presenceID, trans, ...)
-end
-
-local function ToggleFugg(cmd)
-    local enabled = cmd == "off" and false or true
-    Fugg.ENABLED_CHAT = enabled
-    Fugg.ENABLED_BN = enabled
-
-    if Fugg.ENABLED then
-        _SendChatMessage = __SendChatMessage
-        _BNSendWhisper = __BNSendWhisper
-        print('Fugg enabled')
-    else
-        _SendChatMessage = MasterSendChatmessage
-        _BNSendWhisper = MasterBNSendWhisper
-        print('Fugg disabled')
-    end
+    local trans = Fugg:TranslateMessage(messageText)
+    return MasterBNSendWhisper(presenceID, trans, ...)
 end
 
 local function ToggleAdditional(cmd)
-    Fugg.ADDITIONAL = not Fugg.Additional
+    if cmd == "additionaltoggle" then
+        Fugg.ADDITIONAL = not Fugg.ADDITIONAL
+        print('secret')
+        print(Fugg.ADDITIONAL)
+    end
     if Fugg.ADDITIONAL then
         SendChatMessage = WrapperSendChatmessage
         BNSendWhisper = WrapperBNSendWhisper
@@ -76,10 +80,29 @@ local function ToggleAdditional(cmd)
     end
 end
 
+local function ToggleFugg(cmd)
+    local enabled = cmd == "on" and true or false
+    Fugg.ENABLED_CHAT = enabled
+    Fugg.ENABLED_BN = enabled
+
+    if Fugg.ENABLED_CHAT then
+        _SendChatMessage = __SendChatMessage
+        _BNSendWhisper = __BNSendWhisper
+        print('Fugg enabled')
+    else
+        _SendChatMessage = MasterSendChatmessage
+        _BNSendWhisper = MasterBNSendWhisper
+        print('Fugg disabled')
+    end
+    ToggleAdditional(".")
+end
+
+
+
 local function ToggleSpecific(cmd)
     if cmd == 'chat' then
         local enabled_chat = not Fugg.ENABLED_CHAT
-        Fugg.ENABLED_CHAT = not enabled_chat
+        Fugg.ENABLED_CHAT = enabled_chat
         if enabled_chat then
             _SendChatMessage = __SendChatMessage
             print('Fugg chat enabled')
@@ -102,7 +125,7 @@ end
 
 local function ToggleDolan(cmd)
     Fugg.MODE = Fugg.MODE == "fugg" and "dolan" or "fugg"
-    print("Using " .. Fugg.MODE.. "dialect")
+    print("Using " .. Fugg.MODE .. "dialect")
     Fugg:update_patterns()
 end
 

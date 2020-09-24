@@ -1,3 +1,6 @@
+24092020
+Minor optmisations and refactor
+
 31082020
 Added second "language" (dolan)
 
