@@ -1,7 +1,7 @@
 ## Interface: 80300
 ## Title: Fugg
 ## Author: :DD
-## Version: 2020.39.0
+## Version: 2022.35.0
 dol_patterns.lua
 spur_patterns.lua
 consume.lua

@@ -1,3 +1,6 @@
+02092022
+Remove unused patterns
+
 24092020
 Minor optmisations and refactor
 

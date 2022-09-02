@@ -13,7 +13,7 @@ local additional_patterns = Fugg.additional_patterns
 local additional_replacements = Fugg.additional_replacements
 local additional_len = #additional_patterns
 
-local consume_patterns = Fugg.afro_pats
+local consume_patterns = Fugg.requested_pats
 local consume_len = #consume_patterns
 
 local patterns = {}
